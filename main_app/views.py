@@ -26,7 +26,7 @@ def about(request):
 
 @login_required
 def courses_index(request):
-    courses = Course.objects.filter(user=request.user)
+    courses = Course.objects.all()
     return render(request, "courses/index.html", {"courses": courses})
 
 
