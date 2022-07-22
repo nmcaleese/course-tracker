@@ -20,10 +20,6 @@ def home(request):
     return render(request, "home.html")
 
 
-def about(request):
-    return render(request, "about.html")
-
-
 @login_required
 def courses_index(request):
     courses = Course.objects.all()
@@ -83,6 +79,7 @@ class StudentList(LoginRequiredMixin, ListView):
 class StudentDetail(LoginRequiredMixin, DetailView):
     model = Student
 
+
 class StudentCreate(LoginRequiredMixin, CreateView):
     model = Student
     fields = "__all__"
@@ -100,32 +97,39 @@ class StudentDelete(LoginRequiredMixin, DeleteView):
 
 @login_required
 def lessons_detail(request, pk):
-  lesson = Lesson.objects.get(id=pk)
-  homework_form = HomeworkForm()
-  return render(request, 'main_app/lesson_detail.html', {'lesson': lesson, 'homework_form': homework_form})
-  
+    lesson = Lesson.objects.get(id=pk)
+    homework_form = HomeworkForm()
+    return render(
+        request,
+        "main_app/lesson_detail.html",
+        {"lesson": lesson, "homework_form": homework_form},
+    )
+
+
 @login_required
 def add_homework(request, pk):
-  form = HomeworkForm(request.POST)
-  if form.is_valid():
-    new_homework = form.save(commit=False)
-    new_homework.lesson_id = pk
-    new_homework.assign_date = date.today()
-    new_homework.save()
-  return redirect('lessons_detail', pk=pk) 
+    form = HomeworkForm(request.POST)
+    if form.is_valid():
+        new_homework = form.save(commit=False)
+        new_homework.lesson_id = pk
+        new_homework.assign_date = date.today()
+        new_homework.save()
+    return redirect("lessons_detail", pk=pk)
+
 
 class LessonUpdate(LoginRequiredMixin, UpdateView):
-  model = Lesson
-  fields = ['title', 'unit', 'description']
+    model = Lesson
+    fields = ["title", "unit", "description"]
+
 
 class LessonDelete(LoginRequiredMixin, DeleteView):
-  model = Lesson
-  success_url = '/courses/' 
+    model = Lesson
+    success_url = "/courses/"
+
 
 class HomeworkDelete(LoginRequiredMixin, DeleteView):
-  model = Homework
-  success_url = '/courses/' 
-
+    model = Homework
+    success_url = "/courses/"
 
 
 @login_required
@@ -139,6 +143,7 @@ def unassoc_student(request, course_id, student_id):
     course = Course.objects.get(id=course_id)
     course.students.remove(student_id)
     return redirect("detail", course_id=course_id)
+
 
 def signup(request):
     error_message = ""
@@ -156,16 +161,16 @@ def signup(request):
 
 
 def add_photo(request, student_id):
-    photo_file = request.FILES.get('photo-file', None)
+    photo_file = request.FILES.get("photo-file", None)
     if photo_file:
-        s3 = boto3.client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        s3 = boto3.client("s3")
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind(".") :]
         try:
-            bucket = os.environ['S3_BUCKET']
+            bucket = os.environ["S3_BUCKET"]
             s3.upload_fileobj(photo_file, bucket, key)
             url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
             Photo.objects.create(url=url, student_id=student_id)
         except Exception as e:
-            print('An error occurred uploading file to S3')
+            print("An error occurred uploading file to S3")
             print(e)
-    return redirect('students_detail', pk=student_id)
+    return redirect("students_detail", pk=student_id)
