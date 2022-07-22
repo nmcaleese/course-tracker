@@ -1,48 +1,42 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>Home</h1>
-<hr/>
-<p>Description...</p>
+<hr />
 
 <div class="parallax-container">
   <div class="parallax">
-    <img src="static/images/education.jpeg" alt="">
+    <img src="static/images/aboutus.webp" alt="" />
   </div>
 </div>
 
-<br>
+<br />
 <h5>Explore the <a href="{% url 'index' %}">Courses</a>...</h5>
-<hr/>
-<p>Description...</p>
-<br>
+<hr />
+<br />
 
 <div class="parallax-container">
   <div class="parallax">
-    <img src="static/images/knowledge.jpeg" alt="">
+    <img src="static/images/knowledge.jpeg" alt="" />
   </div>
 </div>
 
-<br>
+<br />
 <h5>Our <a href="{% url 'students_index' %}">Students</a>...</h5>
-<hr/>
-<p>Description...</p>
+<hr />
 <div class="parallax-container">
   <div class="parallax">
-    <img src="static/images/students.webp" alt="">
+    <img src="static/images/students.webp" alt="" />
   </div>
 </div>
 
-<br>
-<h5>Find out more <a href="{% url 'about' %}">about us</a>...</h5>
-<hr/>
-<p>Description...</p>
+<br />
+<h5>Welcome to Course Tracker!</h5>
+<hr />
 <div class="parallax-container">
   <div class="parallax">
-    <img src="static/images/aboutus.webp" alt="">
+    <img src="static/images/education.jpeg" alt="" />
   </div>
 </div>
-<br>
+<br />
 
 {% endblock %}
-

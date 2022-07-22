@@ -13,7 +13,7 @@ TIMES = (
     ("1", "8:00-9:30 am"),
     ("2", "9:30-11:00 am"),
     ("3", "12:00-1:30 pm"),
-    ("4", "1:30-3:00 pm")
+    ("4", "1:30-3:00 pm"),
 )
 YEARS = (
     ("0", "Kindergarten"),
@@ -36,16 +36,18 @@ LD = (
     ("y", "Yes"),
 )
 
+
 class Student(models.Model):
-  name = models.CharField(max_length=50)
-  year = models.CharField(max_length=2, choices=YEARS, default=YEARS[0][0])
-  learning_difference = models.CharField(max_length=2, choices=LD, default=LD[0][0])
+    name = models.CharField(max_length=50)
+    year = models.CharField(max_length=2, choices=YEARS, default=YEARS[0][0])
+    learning_difference = models.CharField(max_length=2, choices=LD, default=LD[0][0])
 
-  def __str__(self):
-    return self.name
+    def __str__(self):
+        return self.name
 
-  def get_absolute_url(self):
-    return reverse('students_detail', kwargs={'pk': self.id})
+    def get_absolute_url(self):
+        return reverse("students_detail", kwargs={"pk": self.id})
+
 
 class Course(models.Model):
     title = models.CharField(max_length=100)
@@ -62,7 +64,8 @@ class Course(models.Model):
         return f"{self.title}"
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'course_id': self.id})
+        return reverse("detail", kwargs={"course_id": self.id})
+
 
 class Lesson(models.Model):
     title = models.CharField(max_length=100)
@@ -71,26 +74,28 @@ class Lesson(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['unit']
+        ordering = ["unit"]
 
     def __str__(self):
         return f"Unit {self.unit}: {self.title}"
 
     def get_absolute_url(self):
-        return reverse('lessons_detail', kwargs={'pk': self.id})   
+        return reverse("lessons_detail", kwargs={"pk": self.id})
+
 
 class Homework(models.Model):
-    task = models.TextField(max_length = 250)
-    assign_date = models.DateField('Assign Date')
-    due_date = models.DateField("Due Date") 
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)   
+    task = models.TextField(max_length=250)
+    assign_date = models.DateField("Assign Date")
+    due_date = models.DateField("Due Date")
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ['due_date']
+        ordering = ["due_date"]
 
     def __str__(self):
-        return f"{self.task}"     
-    
+        return f"{self.task}"
+
+
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)

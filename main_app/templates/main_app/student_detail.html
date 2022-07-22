@@ -35,6 +35,8 @@
 </div>
 </div>
 <br>
+<a href="{% url 'students_index' %}" class="waves-effect waves-light btn">back</a>
+<hr>
 <div class="row">
   <h4>{{ student.name}}'s Courses: </h4>
   {% if student.course_set.count %}
