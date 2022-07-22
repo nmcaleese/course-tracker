@@ -6,7 +6,7 @@ Welcome to [Coursetracker](https://coursetracker-523.herokuapp.com/)! The one st
 
 Want to see all of the courses your school is offering this semester? Check out our easy to access course catalogue!
 
-![alt text](./main_app/static/images/ss_course_details.png "screenshot2")
+![alt text](./main_app/static/images/ss_courselist.png "screenshot1a")
 
 Let's create the course you'll be teaching this semester! It's as easy as can be. Just fill out the info and hit submit!
 
